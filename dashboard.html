@@ -1,0 +1,66 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Finance Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Dashboard</h1>
+        <p class="text-center">Analyze your financial transactions with machine learning-powered insights.</p>
+
+        <!-- Transaction History Plot -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Transaction History</h5>
+                <div id="transaction-graph">{{ graph | safe }}</div>
+            </div>
+        </div>
+
+        <!-- Clustering Plot -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Transaction Clusters</h5>
+                <div id="cluster-graph">{{ graph_cluster | safe }}</div>
+            </div>
+        </div>
+
+        <!-- Anomaly Detection Results -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Anomaly Detection</h5>
+                <div id="anomaly-graph">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Anomaly Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                                <tr>
+                                    <td>{{ row['Date'] }}</td>
+                                    <td>${{ row['Amount'] }}</td>
+                                    <td>
+                                        {% if row['Anomaly'] == -1 %}
+                                            <span class="badge badge-danger">Anomaly</span>
+                                        {% else %}
+                                            <span class="badge badge-success">Normal</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
